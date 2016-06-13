@@ -1,0 +1,34 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="{% static 'css/logger.css' %}">
+        <title>Datalogger</title>
+    </head>
+    <body>
+        <div class = "page-header"> 
+            <h1><a href="/">Upload Files to the Datalogger</a></h1>
+        </div>
+    <form action = "" method = "post" enctype = "multipart/form-data">
+            <p>No Documents.</p>
+        <pre>
+            <p> {{form.non_field_errors}}</p>
+            <p> {{form.docfile.label_tag}} {{form.docfile.help_text}} </p>
+
+            <p> {{form.docfile.errors }}
+                {{form.docfile}}
+            </p>
+            <!--
+            <p><b>Title &nbsp;&nbsp;&nbsp;{{form.filename}}</b>
+            <p><b>File &nbsp;&nbsp;&nbsp;&nbsp;{{form.file__}}</b>
+            -->
+        </pre>
+
+        <input type = "submit" value = "Upload"/>
+    </form>
+    </body>
+</html>
+
+`

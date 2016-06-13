@@ -1,0 +1,36 @@
+{% load staticfiles %}
+<html>
+    <head>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="{% static 'css/logger.css' %}">
+        <title>Datalogger</title>
+    </head>
+    <body>
+        <div class="page-header">
+            <h1><a href="/">Hi there! Welcome to the Datalogger</a></h1>
+        </div>
+        <div>
+            <h2><a href="logger/form/">New Logger</a></h2>
+            <h2><a href="admin/logger/logger/">Edit Logger</a></h2>
+            <h2><a href="logger/time/">Time</a></h2>
+            <h2><a href="logger/log/">Log</a></h2>
+            <h2><a href="logger/read/">Read</a></h2>
+            <h2><a href="logger/upload/">Upload Files(In progress)</a></h2>
+        </div>
+        <br>   </br>
+        <h1>Current Logging History</h1>
+            <ul>
+                {% for x in post %}
+                    <li><h4>{{ x }}</h4></li>
+                {% endfor %}
+            </ul>
+    </body>
+</html>
+
+<!--
+
+            <h2>eyyyyyy</h2>
+            <strong>hellllo</strong>
+-->
+

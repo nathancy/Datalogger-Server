@@ -1,0 +1,28 @@
+{% load staticfiles %}
+<html>
+    <head>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="{% static 'css/logger.css' %}">
+        <title>Datalogger</title>
+    </head>
+    <body>
+        <div class = "page-header"> 
+            <h1><a href="/">Hi there! Welcome to the Datalogger</a></h1>
+        </div>
+    {{clean_name}}
+    <form action = "" method ="post">
+        {% csrf_token %}
+        <pre>
+            <p><b>Baudrate &nbsp;&nbsp;&nbsp;{{form.baudrate}}</b>
+            <p><b>File Name &nbsp;&nbsp;{{form.file_name}}</b>
+            <p><b>Update Rate {{form.update_rate}}</b>
+            <p><b>Dataport &nbsp;&nbsp;&nbsp;{{form.dataport}}</b>
+            <p><b>Timeout &nbsp;&nbsp;&nbsp;&nbsp;{{form.timeout}}</b>
+        </pre>
+        <input type = "submit" value = "Submit"/>
+    </form>
+    </body>
+</html>
+
+
