@@ -8,9 +8,16 @@
     </head>
     <body>
         <div class = "page-header"> 
-            <h1><a href="/">Hi there! Welcome to the Datalogger</a></h1>
+            <h1><a href="/">Logging in Progress...</a></h1>
         </div>
-    {{clean_name}}
+        <div>
+            <h1>Standard settings</h1>
+            <ul>
+                <li>Baudrate: 115200</li>
+                <li>Update Rate: 0 (autostreaming)</li>
+                <li>Dataport: ttyAMA0</li>
+                <li>Timeout: 5</li>
+            </ul>
     <form action = "" method ="post">
         {% csrf_token %}
         <pre>
@@ -20,8 +27,9 @@
             <p><b>Dataport &nbsp;&nbsp;&nbsp;{{form.dataport}}</b>
             <p><b>Timeout &nbsp;&nbsp;&nbsp;&nbsp;{{form.timeout}}</b>
         </pre>
-        <input type = "submit" value = "Submit"/>
+        <!--<input type = "submit" value = "Submit"/>-->
     </form>
+        <a href = "/"><img src = "https://upload.wikimedia.org/wikipedia/en/thumb/f/f1/Stop_hand_nuvola.svg/1024px-Stop_hand_nuvola.svg.png" /></a>
     </body>
 </html>
 

@@ -1,0 +1,36 @@
+{% load staticfiles %}
+<html>
+    <head>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="{% static 'css/logger.css' %}">
+        <title>Datalogger</title>
+    </head>
+    <body>
+        <div class = "page-header"> 
+            <h1><a href="/">Configure Datalogger</a></h1> 
+        </div>
+        <div>
+            <h1>Standard settings</h1>
+            <ul>
+                <li>Baudrate: 115200</li>
+                <li>Update Rate: 0 (autostreaming)</li>
+                <li>Dataport: ttyAMA0</li>
+                <li>Timeout: 5</li>
+            </ul>
+    <form action = "" method ="post">
+        {% csrf_token %}
+        <pre>
+            <p><b>Baudrate &nbsp;&nbsp;&nbsp;{{form.baudrate}}</b>
+            <p><b>File Name &nbsp;&nbsp;{{form.file_name}}</b>
+            <p><b>Update Rate {{form.update_rate}}</b>
+            <p><b>Dataport &nbsp;&nbsp;&nbsp;{{form.dataport}}</b>
+            <p><b>Timeout &nbsp;&nbsp;&nbsp;&nbsp;{{form.timeout}}</b>
+        </pre>
+        <input type = "submit" value = "Submit" name = "submit"/>
+        <input type = "submit" value = "Stop" name = "stop"/>
+    </form>
+    </body>
+</html>
+
+

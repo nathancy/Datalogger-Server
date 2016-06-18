@@ -12,7 +12,6 @@ class Logger(models.Model):
     data_port = models.CharField(max_length = 50, default = 'ttyAMA0')
     timeout = models.PositiveIntegerField(default = 5)
     current_time = models.DateTimeField(default = timezone.now)
-
     def log_date(self):
         self.current_time = timezone.now()
         self.save()
@@ -21,7 +20,7 @@ class Logger(models.Model):
 
 class Upload(models.Model):
     docfile= models.FileField(upload_to = 'documents/%Y/%m/%d')
-
+    
 class serial_port(object):
     data_field = None
     def __init__(self, filename= "Data_", baudrate=115200, interval=.5):
@@ -36,6 +35,9 @@ class serial_port(object):
         current_time=datetime.datetime.now().strftime("%m_%d_%Y::%H_%M_%S_%f")
         print current_time[:-3]
         self.data_field.write(str(current_time[:-3]) +"\n")
+
+
+
         '''
     def open_serial(self):
         ser = serial.Serial(

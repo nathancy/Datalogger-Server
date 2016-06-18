@@ -27,8 +27,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+#MEDIA_ROOT is directory where files are stored, MEDIA_URL is URL on website to access
+MEDIA_ROOT = '/home/pi/Documents/Server/Django-server/logs/'
+MEDIA_URL = '/logger/files/'
 
 # Application definition
 INSTALLED_APPS = [
