@@ -2,16 +2,20 @@ from django.shortcuts import render, render_to_response
 from django.utils import timezone
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from .forms import Loggerform, UploadFileForm 
-from .models import Logger, Upload
+from .models import Logger, Upload, Logger_status
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
-import os, argparse, time, datetime, serial, subprocess, sys, psutil, tempfile, zipfile
+import os, argparse, time, datetime, serial, subprocess, sys, psutil, tempfile, zipfile, shlex
 from django.views.static import serve
 from django.utils.encoding import smart_str
 from pprint import pprint
 from wsgiref.util import FileWrapper
 
-p = None
+p =None 
+alive = False
+initial_server_run = True
+temp = {"baudrate": " ", "filename": " ", "update_rate": " ", "dataport": " ", "timeout":" "}
+status = {"current": "Not Logging"}
 #Log
 def log(request):
     post = Logger.objects.all()
@@ -25,29 +29,83 @@ def current_datetime(request):
 #Startpage
 def startpage(request):
     post = Logger.objects.all()
-    return render(request, 'logger/startpage.html', {'post':post})
+    global temp
+    global status
+    global alive
+    form = Loggerform(request.POST)
+    if "stop" in form.data:
+        kill_logger(p.pid)
+        status = {"current": "Not Logging"}
+        alive = False
+        logger_settings = {"baudrate": " ", "filename": " ", "update_rate": " ", "dataport": " ", "timeout":" "}
+        temp = logger_settings
+    return render(request, 'logger/startpage.html', {'post':post, 'temp':temp, 'status':status})
 
 #Enterinin new datalogger
 def new_form(request):
     global p
+    global alive
+    global initial_server_run
+    global temp
+    global status
     form = Loggerform(request.POST)
-    if form.is_valid():
+    status = {"current": "Not Logging"}
+    if initial_server_run is True:
+        logger_settings = {"baudrate": " ", "filename": " ", "update_rate": " ", "dataport": " ", "timeout":" "}
+        initial_server_run = False
+    else:
+        logger_settings = temp
+    
+    #alive_or_not = subprocess.Popen(["px aux | grep python"])
+    #alive_or_not = subprocess.Popen(["ps", "aux", "|", "grep", "python"])
+    #alive_or_not = subprocess.Popen(["ps", "aux", "|","grep", "cmd.py", "|", "grep", "-v", "color=auto"])
+    #print "alive_or_not value is " + str(alive_or_not)
+    
+    if alive is True:
+        status = {"current": "Logging"}
+    else:
+        status = {"current": "Not Logging"}
+
+    #Blank/default logger
+    if not form.is_valid() and "submit" in form.data:
+        #Kill previous logger
+        if alive is True:
+            kill_logger(p.pid)
+        Logger.objects.create(name = "default_logger", baudrate = "115200", update_rate = "0", data_port = "ttyAMA0", timeout = "5") 
+   
+        p = subprocess.Popen(["python", '/home/pi/Documents/Server/Django-server/logger/scripts/cmd.py', "-n", "default_logger", "-r","0", "-b", "115200", "-p", "ttyAMA0", "-t", "5"])
+        status = {"current": "Logging"}
+        alive = True
+        logger_settings = {"baudrate":"115200", "filename": "default_logger", "update_rate": "0", "dataport":"ttyAMA0", "timeout":"5"}
+        temp = logger_settings
+    #Logger with fill in form
+    if form.is_valid():    
         if "submit" in form.data:
-            #START HEREHEHREHRHEH START HEREH WHEN YOU COME BACK
+            if alive is True:
+                kill_logger(p.pid)
             clean_baudrate = form.cleaned_data['baudrate']
-            #clean_baudrate = form.clean_baudrate()
             clean_name = form.cleaned_data['file_name']
             clean_update_rate = form.cleaned_data['update_rate']
             clean_dataport = form.cleaned_data['dataport']
             clean_timeout = form.cleaned_data['timeout']
+    
             Logger.objects.create(name = clean_name, baudrate = clean_baudrate, update_rate = clean_update_rate, data_port = clean_dataport, timeout = clean_timeout) 
-       
+
             p = subprocess.Popen(["python", '/home/pi/Documents/Server/Django-server/logger/scripts/cmd.py', "-n", clean_name, "-r", str(clean_update_rate), "-b", str(clean_baudrate), "-p", str(clean_dataport), "-t", str(clean_timeout)])
-        elif "stop" in form.data:
-            kill_logger(p.pid)
+            status = {"current": "Logging"}
+            alive = True
+            logger_settings = {"baudrate":str(clean_baudrate), "filename":clean_name, "update_rate": str(clean_update_rate), "dataport": str(clean_dataport), "timeout": str(clean_timeout)}
+            temp = logger_settings
+
+    if "stop" in form.data:
+        kill_logger(p.pid)
+        status = {"current": "Not Logging"}
+        alive = False
+        logger_settings = {"baudrate": " ", "filename": " ", "update_rate": " ", "dataport": " ", "timeout":" "}
+        temp = logger_settings
     #html="<html><body>%s</body></html>" %clean_dataport
     #return HttpResponse(html)
-    return render(request, 'logger/new_logger.html', {'form': form})
+    return render(request, 'logger/new_logger.html', {'form': form, 'status':status, 'logger_settings':logger_settings})
 
 #Currently logging
 def currently_logging(request):

@@ -22,11 +22,11 @@ class logger(object):
             bytesize = serial.EIGHTBITS,
             timeout = int(args['t'])
         )
-        self.data_field.write(str(self.ser.baudrate) + "\n")
-        self.data_field.write(str(args['r']) + "\n")
-        self.data_field.write(str(args['n']) + "\n")
-        self.data_field.write(str(self.ser.port) + "\n")
-        self.data_field.write(str(self.ser.timeout) + "\n")
+        self.data_field.write("Baudrate: " + str(self.ser.baudrate) + "\n")
+        self.data_field.write("Update Rate: " + str(args['r']) + "\n")
+        self.data_field.write("File Name: " + str(args['n']) + "\n")
+        self.data_field.write("Data Port: " + str(self.ser.port) + "\n")
+        self.data_field.write("Timeout: " + str(self.ser.timeout) + "\n")
         self.data_field.write("\n")
         
         #print self.ser.baudrate

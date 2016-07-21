@@ -8,6 +8,7 @@ class Loggerform(forms.Form):
     dataport = forms.CharField(label = "Data Port", max_length = 50, initial = "ttyAMA0")
     timeout = forms.IntegerField(label = "Timeout", initial = 5)
 
+    #testing for clean values
     def clean_baudrate(self):
         if not self['baudrate'].html_name in self.data:
             return self.fields['baudrate'].initial

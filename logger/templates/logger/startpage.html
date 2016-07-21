@@ -10,22 +10,39 @@
         <div class="page-header">
             <h1><a href="/">Hi there! Welcome to the Datalogger</a></h1>
         </div>
-        <div>
+        <div id ="status">
+            <h3>Status: {{status.current}}</h3>
+            <h1>Current Logging Settings</h1>
+            <ul>
+                <li>Baudrate: {{temp.baudrate}} </li>
+                <li>Filename: {{temp.filename}} </li>
+                <li>Update Rate: {{temp.update_rate}} </li>
+                <li>Dataport: {{temp.dataport}} </li>
+                <li>Timeout: {{temp.timeout}} </li>
+            </ul>
+            <form action = "" method ="post">
+            {% csrf_token %}
+            <input type = "submit" class = "button-stop" value = "Stop" name = "stop" onClick = "alert('Logging stopped'); return true"/>
+            </form>
+        </div>
+        <div id = "logger-settings">
+            <!-- <img src="https://ibin.co/2njRM4MjSxrH.png" alt="The Dream" style=width:1284px;height:960px;"<> -->
             <h2><a href="logger/form/">New Logger</a></h2>
             <h2><a href="admin/logger/logger/">Edit Logger</a></h2>
             <h2><a href="logger/time/">Time</a></h2>
             <h2><a href="logger/log/">Log</a></h2>
             <h2><a href="logger/read/">Read</a></h2>
-            <h2><a href="logger/upload/">Upload Files(In progress)</a></h2>
-            <h2><a href="logger/files/">Logger Files</a></h2>
+            <h2><a href="logger/upload/">Upload Files</a></h2>
+            <h2><a href="logger/files/">Logger Files(.csv)</a></h2>
         </div>
-        <br>   </br>
-        <h1>Current Logging History</h1>
+        <div id = "history">
+        <h1>Logging History</h1>
             <ul>
                 {% for x in post %}
                     <li><h4>{{ x }}</h4></li>
                 {% endfor %}
             </ul>
+        </div>
     </body>
 </html>
 

@@ -20,7 +20,10 @@ class Logger(models.Model):
 
 class Upload(models.Model):
     docfile= models.FileField(upload_to = 'documents/%Y/%m/%d')
-    
+
+class Logger_status(models.Model):
+    status = models.CharField(max_length = 50)
+
 class serial_port(object):
     data_field = None
     def __init__(self, filename= "Data_", baudrate=115200, interval=.5):

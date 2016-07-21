@@ -4,14 +4,13 @@
     margin-left: -15;
     padding: 20px 40px 20px 40px;
 }
-
 .page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
     color: #ffffff;
     font-size: 36pt;
     text-decoration: none;
 }
 .page-header h1 a:hover {
-    color:#3366FF;
+    color:#87CEFA;
     text-decoration:none;
 }
 
@@ -27,7 +26,58 @@ a {
     font-size: 16pt;
 }
 
+.button-stop{
+    cursor: pointer;
+    text-decoration: none;
+    background-color: #F44336;
+    border: none;
+    color: white;
+    text-align:center;
+    display:inline-block;
+    font-size: 16px;
+    padding: 15px 32px;
+    margin: 4px 2px;
+    border-radius: 12px;
+}
+.button-start:hover {
+    background-color: #3E8E41;
+}
+.button-stop:hover {
+    background-color: #B22222;
+}
+.button-start {
+    cursor: pointer;
+    text-decoration: none;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    text-align:center;
+    display:inline-block;
+    font-size: 16px;
+    padding: 15px 32px;
+    margin: 4px 2px;
+    border-radius: 12px;
+}
+#status {
+    width: 60%;
+    margin:auto;
+}
 
+#formdata {
+    padding: 15px 32px;
+    width:20%;
+}
+
+#logger-settings {
+    float:left;
+    width:30%;
+    margin:-270px 0 0 0;
+}
+#history {
+    float:right;
+    width:80%;
+    margin:-270px -500px 0 0;
+}
 
 '''
 h2 a {
