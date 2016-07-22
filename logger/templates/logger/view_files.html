@@ -10,6 +10,10 @@
         <div class = "page-header"> 
             <h1><a href="/">Datalogger Files</a></h1> 
         </div>
+        <form action = "" method = "post">
+        {% csrf_token %}
+        <input type = "submit" class = "button-start" value = "Download All Files" name = "download-all" />
+        </form>
         <div>
             {% for file in files %}
             <ul>

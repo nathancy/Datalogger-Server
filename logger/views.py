@@ -10,6 +10,7 @@ from django.views.static import serve
 from django.utils.encoding import smart_str
 from pprint import pprint
 from wsgiref.util import FileWrapper
+from shutil import make_archive
 
 p =None 
 alive = False
@@ -138,11 +139,16 @@ def upload_file(request):
     #return render(request, 'logger/upload.html', {'documents': documents, 'form': form})
     return render_to_response('logger/upload.html',{'documents':documents, 'form':form}, context_instance=RequestContext(request)) 
 
-def view_files(request):
-    
-    
+def view_files(request, file_name=""):
+    form = Loggerform(request.POST)
     path = "/home/pi/Documents/Server/Django-server/logs/"
     files = os.listdir(path)
+    if "download-all" in form.data:
+        file_path = "/home/pi/Documents/Server/Django-server/logs/"+file_name
+        path_to_zip = make_archive(file_path, "zip", file_path)
+        response = HttpResponse(FileWrapper(file(path_to_zip,'rb')), content_type='application/zip')
+        response['Content-Disposition'] = 'attachment; filename=Logger_Files'+file_name.replace(" ", "_")+'.zip'
+        return response
     return render(request, 'logger/view_files.html', {'files':files})
     
    
