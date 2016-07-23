@@ -10,19 +10,28 @@
         <div class = "page-header"> 
             <h1><a href="/">Datalogger Files</a></h1> 
         </div>
-        <form action = "" method = "post">
-        {% csrf_token %}
-        <input type = "submit" class = "button-start" value = "Download All Files" name = "download-all" />
-        </form>
+            <h2 class = "frontpage-header"><a href="/logger/form/">New Logger</a></h2>
+            <h2 class = "frontpage-header"><a href="/admin/logger/logger/">Edit Logger</a></h2>
+            <h2 class = "frontpage-header"><a href="/logger/time/">Time</a></h2>
+            <h2 class = "frontpage-header"><a href="/logger/upload/">Upload Files</a></h2>
+            <h2 class = "frontpage-header"><a href="/logger/files/">Logger Files(.csv)</a></h2>
+            <p style = "clear:both"></p>
+        <div id = "download-section">
+            <form action = "" method = "post">
+                {% csrf_token %}
+                <input type = "submit" class = "button-download-all" value = "Download All Files" name = "download-all" />
+            </form>
         <div>
+            <h2>Download Individual Files</h2>
             {% for file in files %}
-            <ul>
-            </ul>
+                <ul>
+                </ul>
             <div id = "file-list">
                 <a href = "{{file}}">{{file}}</a>
             </div>
             {% endfor %}
-        </div>  
+        </div>
+        </div>
     </body>
 </html>
 

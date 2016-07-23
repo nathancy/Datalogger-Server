@@ -12,16 +12,24 @@
             <h1><a href="/">Configure Datalogger</a></h1> 
         </div>
         <div>
+            <h2 class = "frontpage-header"><a href="/logger/form/">New Logger</a></h2>
+            <h2 class = "frontpage-header"><a href="/admin/logger/logger/">Edit Logger</a></h2>
+            <h2 class = "frontpage-header"><a href="/logger/time/">Time</a></h2>
+            <h2 class = "frontpage-header"><a href="/logger/upload/">Upload Files</a></h2>
+            <h2 class = "frontpage-header"><a href="/logger/files/">Logger Files(.csv)</a></h2>
+            <p style = "clear:both"></p>
+            <div id ="status">
             <h1>Standard/Default Settings</h1>
+            <h2>Press start with blank fields to use default settings </h3>
             <ul>
                 <li>Baudrate: 115200</li>
                 <li>Update Rate: 0 (autostreaming)</li>
                 <li>Dataport: ttyAMA0</li>
                 <li>Timeout: 5</li>
             </ul>
-            <h2>Press start with blank fields to use default settings </h3>
-            <h3>Status: {{status.current}}</h3>
-        </div>
+                <p>
+                    <h3>Status: <h3 id = "status-bar">{{status.current}}</h3></h3>
+                </p>
             <h1>Current Logging Settings</h1>
             <ul>
                 <li>Baudrate: {{logger_settings.baudrate}}</li>
@@ -30,6 +38,7 @@
                 <li>Dataport: {{logger_settings.dataport}}</li>
                 <li>Timeout: {{logger_settings.timeout}}</li>
             </ul>
+        </div>
     <form action = "" method ="post">
         {% csrf_token %}
         <pre id = "formdata">
@@ -39,8 +48,10 @@
             <p><b>Dataport &nbsp;&nbsp;&nbsp;{{form.dataport}}</b>
             <p><b>Timeout &nbsp;&nbsp;&nbsp;&nbsp;{{form.timeout}}</b>
         </pre>
-        <input type = "submit" class = "button-start" value = "Start" name = "submit" onClick = "alert('Currently logging...'); return true">
-        <input type = "submit" class = "button-stop" value = "Stop" name = "stop" onClick = "alert('Logging stopped'); return true"/>
+        <input type = "submit" class = "button-start" value = "Start" name = "submit" >
+        <!--onClick = "alert('Currently logging...'); return true"> -->
+        <input type = "submit" class = "button-stop" value = "Stop" name = "stop"
+    ><!--  onClick = "alert('Logging stopped'); return true"/> -->
 
     </form>
     </body>

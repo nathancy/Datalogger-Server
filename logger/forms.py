@@ -18,6 +18,9 @@ class UploadFileForm(forms.Form):
     filename = forms.CharField(max_length=50)
     docfile = forms.FileField(label = 'Select a file', help_text = '.txt files only')
 
+class Button_Form(forms.Form):
+    button = forms.IntegerField(label = "Button form")
+
 '''
     def process(self):
         cd = self.cleaned_data

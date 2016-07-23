@@ -1,7 +1,7 @@
 from django.shortcuts import render, render_to_response
 from django.utils import timezone
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
-from .forms import Loggerform, UploadFileForm 
+from .forms import Loggerform, UploadFileForm, Button_Form
 from .models import Logger, Upload, Logger_status
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
@@ -140,7 +140,7 @@ def upload_file(request):
     return render_to_response('logger/upload.html',{'documents':documents, 'form':form}, context_instance=RequestContext(request)) 
 
 def view_files(request, file_name=""):
-    form = Loggerform(request.POST)
+    form = Button_Form(request.POST)
     path = "/home/pi/Documents/Server/Django-server/logs/"
     files = os.listdir(path)
     if "download-all" in form.data:
