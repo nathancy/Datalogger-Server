@@ -22,12 +22,15 @@
                 <input type = "submit" class = "button-download-all" value = "Download All Files" name = "download-all" />
             </form>
         <div>
-            <h2>Download Individual Files</h2>
+            <h2>Download or Delete Individual Files</h2>
             {% for file in files %}
-                <ul>
-                </ul>
             <div id = "file-list">
-                <a href = "{{file}}">{{file}}</a>
+                <form action = "" method ="post">
+                {% csrf_token %} 
+                <input type = "submit" class = "button-delete-single" value = "X" name = 'delete-single-csv' />
+                <input type = "hidden" name = {{file}} />
+                <a href="{{file}}">{{file}}</a>
+                </form>
             </div>
             {% endfor %}
         </div>

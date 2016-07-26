@@ -15,6 +15,8 @@ from shutil import make_archive
 p =None 
 alive = False
 initial_server_run = True
+path = "/home/pi/Documents/Server/Django-server/logs/"
+files = os.listdir(path)
 temp = {"baudrate": " ", "filename": " ", "update_rate": " ", "dataport": " ", "timeout":" "}
 status = {"current": "Not Logging"}
 #Log
@@ -33,8 +35,8 @@ def startpage(request):
     global temp
     global status
     global alive
-    form = Loggerform(request.POST)
-    if "stop" in form.data:
+    #if "stop" in form.data:
+    if request.POST.get('stop'):
         kill_logger(p.pid)
         status = {"current": "Not Logging"}
         alive = False
@@ -68,20 +70,22 @@ def new_form(request):
         status = {"current": "Not Logging"}
 
     #Blank/default logger
-    if not form.is_valid() and "submit" in form.data:
+    #if not form.is_valid() and "submit" in form.data:
+    if not form.is_valid() and request.POST.get('submit'):
         #Kill previous logger
         if alive is True:
             kill_logger(p.pid)
         Logger.objects.create(name = "default_logger", baudrate = "115200", update_rate = "0", data_port = "ttyAMA0", timeout = "5") 
    
-        p = subprocess.Popen(["python", '/home/pi/Documents/Server/Django-server/logger/scripts/cmd.py', "-n", "default_logger", "-r","0", "-b", "115200", "-p", "ttyAMA0", "-t", "5"])
+        p = subprocess.Popen(["python", '/home/pi/Documents/Server/Django-server/logger/scripts/log_csv.py', "-n", "default_logger", "-r","0", "-b", "115200", "-p", "ttyAMA0", "-t", "5"])
         status = {"current": "Logging"}
         alive = True
         logger_settings = {"baudrate":"115200", "filename": "default_logger", "update_rate": "0", "dataport":"ttyAMA0", "timeout":"5"}
         temp = logger_settings
     #Logger with fill in form
     if form.is_valid():    
-        if "submit" in form.data:
+        #if "submit" in form.data:
+        if request.POST.get('submit'):
             if alive is True:
                 kill_logger(p.pid)
             clean_baudrate = form.cleaned_data['baudrate']
@@ -92,13 +96,14 @@ def new_form(request):
     
             Logger.objects.create(name = clean_name, baudrate = clean_baudrate, update_rate = clean_update_rate, data_port = clean_dataport, timeout = clean_timeout) 
 
-            p = subprocess.Popen(["python", '/home/pi/Documents/Server/Django-server/logger/scripts/cmd.py', "-n", clean_name, "-r", str(clean_update_rate), "-b", str(clean_baudrate), "-p", str(clean_dataport), "-t", str(clean_timeout)])
+            p = subprocess.Popen(["python", '/home/pi/Documents/Server/Django-server/logger/scripts/log_csv.py', "-n", clean_name, "-r", str(clean_update_rate), "-b", str(clean_baudrate), "-p", str(clean_dataport), "-t", str(clean_timeout)])
             status = {"current": "Logging"}
             alive = True
             logger_settings = {"baudrate":str(clean_baudrate), "filename":clean_name, "update_rate": str(clean_update_rate), "dataport": str(clean_dataport), "timeout": str(clean_timeout)}
             temp = logger_settings
 
-    if "stop" in form.data:
+    #if "stop" in form.data:
+    if request.POST.get('stop'):
         kill_logger(p.pid)
         status = {"current": "Not Logging"}
         alive = False
@@ -140,15 +145,23 @@ def upload_file(request):
     return render_to_response('logger/upload.html',{'documents':documents, 'form':form}, context_instance=RequestContext(request)) 
 
 def view_files(request, file_name=""):
-    form = Button_Form(request.POST)
+    #form = Button_Form(request.POST)
+    global files
     path = "/home/pi/Documents/Server/Django-server/logs/"
     files = os.listdir(path)
-    if "download-all" in form.data:
+    
+    if request.POST.get('download-all'):
         file_path = "/home/pi/Documents/Server/Django-server/logs/"+file_name
         path_to_zip = make_archive(file_path, "zip", file_path)
         response = HttpResponse(FileWrapper(file(path_to_zip,'rb')), content_type='application/zip')
         response['Content-Disposition'] = 'attachment; filename=Logger_Files'+file_name.replace(" ", "_")+'.zip'
         return response
+    if request.POST.get('delete-single-csv'):
+        for filename in files:
+            if request.POST.get(filename) is not None:
+                delete_csv_file = subprocess.Popen(["rm", "/home/pi/Documents/Server/Django-server/logs/" + str(filename)])
+                stdoutdata, stderrdata = delete_csv_file.communicate()
+                files = os.listdir(path)
     return render(request, 'logger/view_files.html', {'files':files})
     
    

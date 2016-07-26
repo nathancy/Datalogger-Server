@@ -55,6 +55,19 @@
     margin: 4px 2px;
     border-radius: 12px;
 }
+.button-delete-single {
+    cursor: pointer;
+    text-decoration: none;
+    background-color: red;
+    border: none;
+    color: white;
+    font-size:12px;
+    text-align:center;
+    display:inline-block;
+    padding: 2px 16px;
+    margin: -12.5px 4px;
+    border-radius: 12px;
+}
 .button-start {
     cursor: pointer;
     text-decoration: none;
