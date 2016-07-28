@@ -20,7 +20,7 @@
     color:#660000;
 }
 #file-list a {
-    font-size: 16pt;
+    font-size: 12pt;
 }
 
 .button-stop{
@@ -64,8 +64,8 @@
     font-size:12px;
     text-align:center;
     display:inline-block;
-    padding: 2px 16px;
-    margin: -12.5px 4px;
+    padding: 2px 15px;
+    margin: -11px 4px;
     border-radius: 12px;
 }
 .button-start {
@@ -99,9 +99,16 @@ body {
     background-color: #F2F2F2;
 }
 #formdata {
+    margin-top:30px;
     padding: 15px 32px;
     width:23%;
+    background-color:#D3D3D3;
 }
+#upload-file {
+    background-color:#D3D3D3;
+    padding: 0px 0px 0px 15px;
+}
+
 
 #logger-settings {
     float:left;
@@ -122,7 +129,7 @@ body {
     text-align: center;
     text-decoration:none;
     display: inline-block;
-    font-size: 24;
+    font-size: 18pt;
     cursor: pointer;
     float:left;
 }
@@ -131,10 +138,10 @@ body {
     text-decoration: none;
     position:relative;
 }
-.frontpage-header:visited {
-    background-color:green;
-}
 .frontpage-header:hover {
     background-color: black;
     text-decoration:none;
+}
+.frontpage-header:active {
+    background-color:green;
 }

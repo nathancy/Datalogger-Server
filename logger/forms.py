@@ -14,10 +14,8 @@ class Loggerform(forms.Form):
             return self.fields['baudrate'].initial
         return self.cleaned_data['baudrate']
 
-class UploadFileForm(forms.Form):
-    filename = forms.CharField(max_length=50)
-    docfile = forms.FileField(label = 'Select a file', help_text = '.txt files only')
-
+class UploadForm(forms.Form):
+    doc_file = forms.FileField(label = 'Select a file', help_text = '\nText files(".DOC", ".PAGES", ".TXT") \nData Files(".CSV", ".TAR", ".DAT") \nAudio Files(".MP3", ".WAV") \nVideo Files(".MOV", ".MP4", ".FLV")')
 class Button_Form(forms.Form):
     button = forms.IntegerField(label = "Button form")
 

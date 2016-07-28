@@ -1,8 +1,8 @@
 from django.shortcuts import render, render_to_response
 from django.utils import timezone
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
-from .forms import Loggerform, UploadFileForm, Button_Form
-from .models import Logger, Upload, Logger_status
+from .forms import Loggerform, UploadForm, Button_Form
+from .models import Logger, Document, Logger_status
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
 import os, argparse, time, datetime, serial, subprocess, sys, psutil, tempfile, zipfile, shlex
@@ -15,8 +15,6 @@ from shutil import make_archive
 p =None 
 alive = False
 initial_server_run = True
-path = "/home/pi/Documents/Server/Django-server/logs/"
-files = os.listdir(path)
 temp = {"baudrate": " ", "filename": " ", "update_rate": " ", "dataport": " ", "timeout":" "}
 status = {"current": "Not Logging"}
 #Log
@@ -132,24 +130,37 @@ def kill_logger(proc_pid):
 
 #Upload
 def upload_file(request):
-    form = UploadFileForm(request.POST, request.FILES)
-    if form.is_valid():
-        newdoc = Upload(docfile = request.FILES['docfile'])
-        newdoc.save()
-        return HttpResponseRedirect(reverse('datalogger.logger.views.upload_file'))
+    if request.method == 'POST' and request.POST.get('file-upload'):
+        fileform = UploadForm(request.POST, request.FILES)
+        if fileform.is_valid():
+            handle_uploaded_file(request.FILES['doc_file'])
+            return HttpResponseRedirect("")
     else:
-        form = UploadFileForm()
-    documents = Upload.objects.all()
-   
-    #return render(request, 'logger/upload.html', {'documents': documents, 'form': form})
-    return render_to_response('logger/upload.html',{'documents':documents, 'form':form}, context_instance=RequestContext(request)) 
+        fileform = UploadForm()
+        '''
+    if request.method == 'POST' and request.POST.get('photo-upload'):
+        photoform = PhotoForm(request.POST, request.FILES)
+        if photoform.is_valid():
+            handle_uploaded_file(request.FILES['photofile'])
+            return HttpResponseRedirect("")
+    else:
+        photoform = PhotoForm()
+        '''
+    documents = Document.objects.all()
+    return render_to_response('logger/upload.html',{'documents': documents, 'fileform':fileform},context_instance=RequestContext(request))
+
+def handle_uploaded_file(file):
+    if file:
+        destination = open("/home/pi/Documents/Server/Django-server/logs/" + file.name, "wb+")
+        for chunk in file.chunks():
+            destination.write(chunk)
+        destination.close()
 
 def view_files(request, file_name=""):
     #form = Button_Form(request.POST)
-    global files
     path = "/home/pi/Documents/Server/Django-server/logs/"
     files = os.listdir(path)
-    
+   
     if request.POST.get('download-all'):
         file_path = "/home/pi/Documents/Server/Django-server/logs/"+file_name
         path_to_zip = make_archive(file_path, "zip", file_path)
@@ -158,6 +169,8 @@ def view_files(request, file_name=""):
         return response
     if request.POST.get('delete-single-csv'):
         for filename in files:
+            print request.POST.get(filename)
+            #temp = str(request.POST.get(filename)).replace(" ", "")
             if request.POST.get(filename) is not None:
                 delete_csv_file = subprocess.Popen(["rm", "/home/pi/Documents/Server/Django-server/logs/" + str(filename)])
                 stdoutdata, stderrdata = delete_csv_file.communicate()

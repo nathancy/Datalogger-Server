@@ -18,11 +18,11 @@ class Logger(models.Model):
     def __str__(self):
         return self.name
 
-class Upload(models.Model):
-    docfile= models.FileField(upload_to = 'documents/%Y/%m/%d')
+class Document(models.Model):
+    doc_file= models.FileField(upload_to = '/home/pi/Documents/Server/Django-server/logs')
 
 class Logger_status(models.Model):
-    status = models.CharField(max_length = 50)
+    status = models.CharField(max_length =50)
 
 class serial_port(object):
     data_field = None

@@ -11,25 +11,29 @@
         <div class = "page-header"> 
             <h1><a href="/">Upload Files to the Datalogger</a></h1>
         </div>
-    <form action = "" method = "post" enctype = "multipart/form-data">
-        {% csrf_token %}    
-        <p>No Documents.</p>
-        <pre>
-            <p> {{form.non_field_errors}}</p>
-            <p> {{form.docfile.label_tag}} {{form.docfile.help_text}} </p>
-
-            <p> {{form.docfile.errors }}
-                {{form.docfile}}
-            </p>
-            <!--
-            <p><b>Title &nbsp;&nbsp;&nbsp;{{form.filename}}</b>
-            <p><b>File &nbsp;&nbsp;&nbsp;&nbsp;{{form.file__}}</b>
-            -->
-        </pre>
-
-        <input type = "submit" value = "Upload"/>
-    </form>
+        <div>
+            <h2 class = "frontpage-header"><a href="/logger/form/">New Logger</a></h2>
+            <h2 class = "frontpage-header"><a href="/admin/logger/logger/">Edit Logger</a></h2>
+            <h2 class = "frontpage-header"><a href="/logger/time/">Time</a></h2>
+            <h2 class = "frontpage-header"><a href="/logger/upload/">Upload Files</a></h2>
+            <h2 class = "frontpage-header"><a href="/logger/files/">Logger Files(.csv)</a></h2>
+            <p style = "clear:both"></p>
+        </div>
+        <div id = "status">
+        <h1>File Upload</h2>
+            <form action = "" method = "post" enctype = "multipart/form-data">
+                {% csrf_token %}
+                <pre id = "upload-file">
+                    <p>{{fileform.non_field_errors}}</p>
+                    <p>{{fileform.doc_file.label_tag}} {{fileform.doc_file.help_text}}</p>
+                    <p>
+                        {{fileform.doc_file.errors}}
+                        {{fileform.doc_file}}
+                    </p>
+                    <p><input name = "file-upload" class = "button-start" type ="submit" value = "Upload" /></p>
+                </pre>
+            </form>
+        </div>
     </body>
 </html>
 
-`

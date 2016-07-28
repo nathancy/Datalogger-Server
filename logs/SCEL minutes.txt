@@ -1,0 +1,48 @@
+sht humidity
+onewire i2c
+dallastemp is built in for arduino
+ina current sensor
+bmp pressure
+mpl/ads adc
+HIH/MCP dragonfruit/cranberry stuff
+
+*****************************************
+PRESSURE bmp085 #include <Adafruit_BMP085.h>
+
+before setup
+Adafruit_BMP085 variable;
+
+In setup, bmp.begin();
+
+variable.readTemperature()
+variable.readPressure()
+variable.readAltitude()
+variable.readSealevelPressure()
+variable.readAltitude(value)
+
+*****************************************
+HUMIDITY sht #include <SHT1x.h>
+
+Constructor
+SHT1x sht1x(datapin, clockpin)                  10, 11
+
+sht1x.readTemperatureC();
+sht1x.readTemperatureF();
+sht1x.readHumidity();
+*****************************************
+TEMPERATURE dallastemp #include <DallasTemperature.h>
+TEMPERATURE onewire #include <OneWire.h>
+
+Constructor/before setup
+OneWire oneWire(port#)
+DallasTemperature sensors(&oneWire)
+
+In setup
+sensors.begin()
+******************************************
+
+
+CURRENT ina
+
+dline program
+uart trnsmtit

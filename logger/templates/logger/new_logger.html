@@ -39,6 +39,7 @@
                 <li>Timeout: {{logger_settings.timeout}}</li>
             </ul>
         </div>
+        <div>
     <form action = "" method ="post">
         {% csrf_token %}
         <pre id = "formdata">
@@ -52,7 +53,7 @@
         <!--onClick = "alert('Currently logging...'); return true"> -->
         <input type = "submit" class = "button-stop" value = "Stop" name = "stop"
     ><!--  onClick = "alert('Logging stopped'); return true"/> -->
-
+        </div>
     </form>
     </body>
 </html>
