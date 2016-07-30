@@ -8,7 +8,7 @@ parser.add_argument('-p', help = "Data port", default = "ttyAMA0", required = Fa
 parser.add_argument('-t', help = "Timeout", default = 5, required = False)
 args = vars(parser.parse_args())
 
-class logger(object):
+class csv_logger(object):
     data_field = None
     def __init__(self, filename = "Data_", baudrate = 115200, interval = 0):
         time_stamp = datetime.datetime.now().strftime("%m_%d_%Y::%H_%M_%S_%f")
@@ -29,23 +29,13 @@ class logger(object):
         self.data_field.write("Timeout: " + str(self.ser.timeout) + "\n")
         self.data_field.write("\n")
         
-        #print self.ser.baudrate
-        #print args['r']
-        #print args['n']
-        #print self.ser.port
-        #print self.ser.timeout
-    
-    #def __del__(self):
-    #    if(self.data_field != None):
-    #        self.data_field.close()
-    
     def read_data(self):
         time.sleep(self.interval)
         current_time = datetime.datetime.now().strftime("%m_%d_%Y::%H_%M_%S_%f")
         #print current_time[:-3] + "," + self.ser.readline(),
         self.data_field.write(str(current_time[:-3]) + ",")
         self.data_field.write(str(self.ser.readline()))
-log = logger()
+log = csv_logger()
 while True:
     try:
         log.read_data()

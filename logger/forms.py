@@ -18,10 +18,3 @@ class UploadForm(forms.Form):
     doc_file = forms.FileField(label = 'Select a file', help_text = '\nText files(".DOC", ".PAGES", ".TXT") \nData Files(".CSV", ".TAR", ".DAT") \nAudio Files(".MP3", ".WAV") \nVideo Files(".MOV", ".MP4", ".FLV")')
 class Button_Form(forms.Form):
     button = forms.IntegerField(label = "Button form")
-
-'''
-    def process(self):
-        cd = self.cleaned_data
-        Logger.objects.create(name = cd.cleaned_data['file_name'])
-
-        '''

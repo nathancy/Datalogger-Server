@@ -3,8 +3,9 @@ from django.db import models
 from django.utils import timezone
 from django.forms import ModelForm
 from django.core.files.storage import FileSystemStorage
-
 import argparse, time, serial, datetime
+
+#Datalogger model for csv files
 class Logger(models.Model):
     baudrate = models.PositiveIntegerField(default = 115200)
     update_rate = models.PositiveIntegerField(default = 0)
@@ -18,11 +19,9 @@ class Logger(models.Model):
     def __str__(self):
         return self.name
 
+#Upload files to datalogger
 class Document(models.Model):
     doc_file= models.FileField(upload_to = '/home/pi/Documents/Server/Django-server/logs')
-
-class Logger_status(models.Model):
-    status = models.CharField(max_length =50)
 
 class serial_port(object):
     data_field = None
@@ -40,9 +39,3 @@ class serial_port(object):
         self.data_field.write(str(current_time[:-3]) +"\n")
 
 
-
-        '''
-    def open_serial(self):
-        ser = serial.Serial(
-            port = 
- '''
