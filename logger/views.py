@@ -17,9 +17,8 @@ alive = False
 initial_server_run = True
 temp = {"baudrate": " ", "filename": " ", "update_rate": " ", "dataport": " ", "timeout":" "}
 status = {"current": "Not Logging"}
-
 #Startpage
-def startpage(request):
+def Startpage(request):
     post = Logger.objects.all()
     global temp
     global status
@@ -28,7 +27,7 @@ def startpage(request):
     current_time = datetime.datetime.now()
     #if "stop" in form.data:
     if request.POST.get('stop'):
-        kill_logger(p.pid)
+        Kill_logger(p.pid)
         status = {"current": "Not Logging"}
         alive = False
         logger_settings = {"baudrate": " ", "filename": " ", "update_rate": " ", "dataport": " ", "timeout":" "}
@@ -36,7 +35,7 @@ def startpage(request):
     return render(request, 'logger/startpage.html', {'post':post, 'temp':temp, 'status':status})
 
 #New datalogger
-def new_form(request):
+def New_form_CSV(request):
     global p
     global alive
     global initial_server_run
@@ -61,7 +60,7 @@ def new_form(request):
     if not form.is_valid() and request.POST.get('submit'):
         #Kill previous logger
         if alive is True:
-            kill_logger(p.pid)
+            Kill_logger(p.pid)
         Logger.objects.create(name = "default_logger", baudrate = "115200", update_rate = "0", data_port = "ttyAMA0", timeout = "5") 
    
         #Run background script
@@ -75,7 +74,7 @@ def new_form(request):
     if form.is_valid():    
         if request.POST.get('submit'):
             if alive is True:
-                kill_logger(p.pid)
+                Kill_logger(p.pid)
             clean_baudrate = form.cleaned_data['baudrate']
             clean_name = form.cleaned_data['file_name']
             clean_update_rate = form.cleaned_data['update_rate']
@@ -92,26 +91,26 @@ def new_form(request):
 
     #Stop background script
     if request.POST.get('stop'):
-        kill_logger(p.pid)
+        Kill_logger(p.pid)
         status = {"current": "Not Logging"}
         alive = False
         logger_settings = {"baudrate": " ", "filename": " ", "update_rate": " ", "dataport": " ", "timeout":" "}
         temp = logger_settings
-    return render(request, 'logger/new_logger.html', {'form': form, 'status':status, 'logger_settings':logger_settings})
+    return render(request, 'logger/new_CSV_logger.html', {'form': form, 'status':status, 'logger_settings':logger_settings})
 
 #Kill background script
-def kill_logger(proc_pid):
+def Kill_logger(proc_pid):
      process = psutil.Process(proc_pid)
      for proc in process.children(recursive=True):
          proc.kill()
      process.kill()
 
 #Upload files
-def upload_file(request):
+def Upload_file(request):
     if request.method == 'POST' and request.POST.get('file-upload'):
         fileform = UploadForm(request.POST, request.FILES)
         if fileform.is_valid():
-            handle_uploaded_file(request.FILES['doc_file'])
+            Handle_uploaded_file(request.FILES['doc_file'])
             return HttpResponseRedirect("")
     else:
         fileform = UploadForm()
@@ -119,18 +118,18 @@ def upload_file(request):
     return render_to_response('logger/upload.html',{'documents': documents, 'fileform':fileform},context_instance=RequestContext(request))
 
 #Write file
-def handle_uploaded_file(file):
+def Handle_uploaded_file(file):
     if file:
-        destination = open("/home/pi/Documents/Server/Django-server/logs/" + file.name, "wb+")
+        #Replace spaces in filename with "_" otherwise it can't be deleted
+        destination = open("/home/pi/Documents/Server/Django-server/logs/" + str(file.name).replace(" ","_"), "wb+")
         for chunk in file.chunks():
             destination.write(chunk)
         destination.close()
 
 #Display files in media directory
-def view_files(request, file_name=""):
+def View_files(request, file_name=""):
     path = "/home/pi/Documents/Server/Django-server/logs/"
     files = os.listdir(path)
-  
     #Download all files in directory (.zip file)
     if request.POST.get('download-all'):
         file_path = "/home/pi/Documents/Server/Django-server/logs/"+file_name
@@ -142,9 +141,6 @@ def view_files(request, file_name=""):
     #Delete single file on webpage
     if request.POST.get('delete-single-csv'):
         for filename in files:
-            
-            #print request.POST.get(filename)
-            print str(request.POST.get(filename)).replace(" ", "")
             if request.POST.get(filename) is not None:
                 delete_csv_file = subprocess.Popen(["rm", "/home/pi/Documents/Server/Django-server/logs/" + str(filename)])
                 stdoutdata, stderrdata = delete_csv_file.communicate()

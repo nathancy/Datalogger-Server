@@ -1,18 +1,26 @@
 {% load staticfiles %}
 <html>
     <head>
+        <script type="text/javascript" src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/pageheader-modifier.js' %}"></script>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="{% static 'css/logger.css' %}">
         <title>Datalogger</title>
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}" />
+        <link rel="icon" type="image/png" href="{% static 'favicon-16x16.png' %}" sizes="16x16" />
+        <link rel="icon" type="image/png" href="{% static 'favicon-32x32.png' %}" sizes="32x32" />
     </head>
     <script type = 'text/javascript' src='http://m.free-codes.org/gh.php?id=2001'></script>
     <body>
         <div class = "page-header"> 
             <h1><a href="/">Configure Datalogger</a></h1> 
+            <div id = "spectrum-logo">
+                <img src = "{% static 'SPECTRUM-LOGO.png' %}" />
+            </div>
         </div>
         <div>
-            <h2 class = "frontpage-header"><a href="/logger/form/">New Logger</a></h2>
+            <h2 class = "frontpage-header"><a href="/logger/CSV_form/">New Logger</a></h2>
             <h2 class = "frontpage-header"><a href="/logger/upload/">Upload Files</a></h2>
             <h2 class = "frontpage-header"><a href="/logger/files/">Logger Files</a></h2>
             <h2 class = "frontpage-header"><a href="/admin/logger/logger/">Logger History</a></h2>

@@ -2,17 +2,25 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script type="text/javascript" src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/pageheader-modifier.js' %}"></script>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="{% static 'css/logger.css' %}">
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}" />
+        <link rel="icon" type="image/png" href="{% static 'favicon-16x16.png' %}" sizes="16x16" />
+        <link rel="icon" type="image/png" href="{% static 'favicon-32x32.png' %}" sizes="32x32" />
         <title>Datalogger</title>
     </head>
     <body>
         <div class = "page-header"> 
             <h1><a href="/">Upload Files to the Datalogger</a></h1>
+            <div id = "spectrum-logo">
+                <img src = "{% static 'SPECTRUM-LOGO.png' %}" />
+            </div>
         </div>
         <div>
-            <h2 class = "frontpage-header"><a href="/logger/form/">New Logger</a></h2>
+            <h2 class = "frontpage-header"><a href="/logger/CSV_form/">New Logger</a></h2>
             <h2 class = "frontpage-header"><a href="/logger/upload/">Upload Files</a></h2>
             <h2 class = "frontpage-header"><a href="/logger/files/">Logger Files</a></h2>
             <h2 class = "frontpage-header"><a href="/admin/logger/logger/">Logger History</a></h2>
@@ -23,13 +31,11 @@
             <form action = "" method = "post" enctype = "multipart/form-data">
                 {% csrf_token %}
                 <pre id = "upload-file">
-                    <p>{{fileform.non_field_errors}}</p>
                     <p>{{fileform.doc_file.label_tag}} {{fileform.doc_file.help_text}}</p>
                     <p>
-                        {{fileform.doc_file.errors}}
                         {{fileform.doc_file}}
                     </p>
-                    <p><input name = "file-upload" class = "button-start" type ="submit" value = "Upload" /></p>
+                    <p><input name = "file-upload" class = "button-start" type ="submit" value = "Upload" onClick = "alert('File uploaded');"/></p>
                 </pre>
             </form>
         </div>
