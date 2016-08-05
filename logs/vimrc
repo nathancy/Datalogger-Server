@@ -19,6 +19,9 @@
  Plugin 'ervandew/supertab'
 
  Plugin 'sjl/gundo.vim'
+
+ Plugin 'altercation/vim-colors-solarized'
+
  call vundle#end()
  filetype plugin indent on
 
@@ -91,7 +94,6 @@
 
  """""""" Opens new window on right and on bottom
  set splitright
- set splitbelow
 
  """""""" Minimum windows
  set winminwidth=10
@@ -143,10 +145,9 @@
  """"""""""""""""""
  
  """""""" Syntax highlighting
- syntax on
- "syntax enable 
+ syntax enable 
  set background=dark
-
+ "colorscheme default 
  """"""""""""""""""
  "Files, backup
  """"""""""""""""""
@@ -164,3 +165,7 @@
 
  """""""" Remember info about open files on close
  set viminfo^=%
+
+ "let mapleader = ","
+ "map <leader>cs :ConqueTermVSplit bash <cr>
+ 

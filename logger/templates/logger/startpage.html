@@ -13,19 +13,26 @@
     </head>
     <body>
         <div class="page-header">
-            <h1><a href="/">SPI Datalogger</a></h1>
             <div id = "spectrum-logo">
-                <img src = "{% static 'SPECTRUM-LOGO.png' %}" />
+                <a href = "/"><img src = "{% static 'SPECTRUM-LOGO.png' %}" /></a>
             </div>
-        </div>
-        <div>
-            <h2 class = "frontpage-header"><a href="logger/CSV_form/">New Logger</a></h2>
-            <h2 class = "frontpage-header"><a href="logger/upload/">Upload Files</a></h2>
-            <h2 class = "frontpage-header"><a href="logger/files/">Logger Files</a></h2>
-            <h2 class = "frontpage-header"><a href="admin/logger/logger/">Logger History</a></h2>
-            <p style = "clear:both"></p>
+                <div>
+                
+                    <h2 class = "frontpage-header1"><a href="logger/CSV_form/">New Logger</a></h2>
+                </div>
+                <div>
+                    <h2 class = "frontpage-header2"><a href="logger/upload/">Upload Files</a></h2>
+                </div>
+                <div>
+                    <h2 class = "frontpage-header3"><a href="logger/files/">Logger Files</a></h2>
+                </div>
+                <div>
+                    <h2 class = "frontpage-header4"><a href="admin/logger/logger/">Logger History</a></h2>
+                </div>
+                <p style = "clear:both"></p>
         </div>
             <div id ="status">
+                <h1 id = "page-title">SPI Datalogger</h1>
                 <p>
                     <h3>Status: <h3 id = "status-bar">{{status.current}}</h3></h3>
                 </p>

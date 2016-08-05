@@ -6,26 +6,33 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="{% static 'css/logger.css' %}">
-        <title>Datalogger</title>
+        <title>New Datalogger</title>
         <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}" />
         <link rel="icon" type="image/png" href="{% static 'favicon-16x16.png' %}" sizes="16x16" />
         <link rel="icon" type="image/png" href="{% static 'favicon-32x32.png' %}" sizes="32x32" />
     </head>
-    <script type = 'text/javascript' src='http://m.free-codes.org/gh.php?id=2001'></script>
     <body>
         <div class = "page-header"> 
-            <h1><a href="/">Configure Datalogger</a></h1> 
             <div id = "spectrum-logo">
-                <img src = "{% static 'SPECTRUM-LOGO.png' %}" />
+                <a href = "/"><img src = "{% static 'SPECTRUM-LOGO.png' %}" /></a>
             </div>
+                <div>
+                
+                    <h2 class = "frontpage-header1"><a href="/logger/CSV_form/">New Logger</a></h2>
+                </div>
+                <div>
+                    <h2 class = "frontpage-header2"><a href="/logger/upload/">Upload Files</a></h2>
+                </div>
+                <div>
+                    <h2 class = "frontpage-header3"><a href="/logger/files/">Logger Files</a></h2>
+                </div>
+                <div>
+                    <h2 class = "frontpage-header4"><a href="/admin/logger/logger/">Logger History</a></h2>
+                </div>
+                <p style = "clear:both"></p>
         </div>
-        <div>
-            <h2 class = "frontpage-header"><a href="/logger/CSV_form/">New Logger</a></h2>
-            <h2 class = "frontpage-header"><a href="/logger/upload/">Upload Files</a></h2>
-            <h2 class = "frontpage-header"><a href="/logger/files/">Logger Files</a></h2>
-            <h2 class = "frontpage-header"><a href="/admin/logger/logger/">Logger History</a></h2>
-            <p style = "clear:both"></p>
             <div id ="status">
+                <h1 id = "page-title">Configure Datalogger</h1>
             <h1>Standard/Default Settings</h1>
             <h2>Press start with blank fields to use default settings </h3>
             <ul>
@@ -45,23 +52,21 @@
                 <li>Dataport: {{logger_settings.dataport}}</li>
                 <li>Timeout: {{logger_settings.timeout}}</li>
             </ul>
-        </div>
-        <div>
-    <form action = "" method ="post">
-        {% csrf_token %}
-        <pre id = "formdata">
-            <p><b>Baudrate &nbsp;&nbsp;&nbsp;{{form.baudrate}}</b>
-            <p><b>File Name &nbsp;&nbsp;{{form.file_name}}</b>
-            <p><b>Update Rate {{form.update_rate}}</b>
-            <p><b>Dataport &nbsp;&nbsp;&nbsp;{{form.dataport}}</b>
-            <p><b>Timeout &nbsp;&nbsp;&nbsp;&nbsp;{{form.timeout}}</b>
-        </pre>
-        <input type = "submit" class = "button-start" value = "Start" name = "submit" >
-        <!--onClick = "alert('Currently logging...'); return true"> -->
-        <input type = "submit" class = "button-stop" value = "Stop" name = "stop"
-    ><!--  onClick = "alert('Logging stopped'); return true"/> -->
-        </div>
-    </form>
+            <form action = "" method ="post" class = "formdata">
+            {% csrf_token %}
+                <pre>
+                    <p><b>Baudrate &nbsp;&nbsp;&nbsp;{{form.baudrate}}</b>
+                    <p><b>File Name &nbsp;&nbsp;{{form.file_name}}</b>
+                    <p><b>Update Rate {{form.update_rate}}</b>
+                    <p><b>Dataport &nbsp;&nbsp;&nbsp;{{form.dataport}}</b>
+                    <p><b>Timeout &nbsp;&nbsp;&nbsp;&nbsp;{{form.timeout}}</b>
+                </pre>
+                <input type = "submit" class = "button-start" value = "Start" name = "submit" >
+                <!--onClick = "alert('Currently logging...'); return true"> -->
+                <input type = "submit" class = "button-stop" value = "Stop" name = "stop"
+                ><!--  onClick = "alert('Logging stopped'); return true"/> -->
+            </form>
+            </div>
     </body>
 </html>
 

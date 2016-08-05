@@ -1,5 +1,4 @@
 {% load staticfiles %}
-<!DOCTYPE html>
 <html>
     <head>
         <script type="text/javascript" src="{% static 'js/jquery-3.1.0.min.js' %}"></script>
@@ -10,24 +9,30 @@
         <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}" />
         <link rel="icon" type="image/png" href="{% static 'favicon-16x16.png' %}" sizes="16x16" />
         <link rel="icon" type="image/png" href="{% static 'favicon-32x32.png' %}" sizes="32x32" />
-        <title>Datalogger</title>
+        <title>Datalogger Upload</title>
     </head>
     <body>
         <div class = "page-header"> 
-            <h1><a href="/">Upload Files to the Datalogger</a></h1>
             <div id = "spectrum-logo">
-                <img src = "{% static 'SPECTRUM-LOGO.png' %}" />
+                <a href = "/"><img src = "{% static 'SPECTRUM-LOGO.png' %}" /></a>
             </div>
-        </div>
-        <div>
-            <h2 class = "frontpage-header"><a href="/logger/CSV_form/">New Logger</a></h2>
-            <h2 class = "frontpage-header"><a href="/logger/upload/">Upload Files</a></h2>
-            <h2 class = "frontpage-header"><a href="/logger/files/">Logger Files</a></h2>
-            <h2 class = "frontpage-header"><a href="/admin/logger/logger/">Logger History</a></h2>
+            <div>
+            
+                <h2 class = "frontpage-header1"><a href="/logger/CSV_form/">New Logger</a></h2>
+            </div>
+            <div>
+                <h2 class = "frontpage-header2"><a href="/logger/upload/">Upload Files</a></h2>
+            </div>
+            <div>
+                <h2 class = "frontpage-header3"><a href="/logger/files/">Logger Files</a></h2>
+            </div>
+            <div>
+                <h2 class = "frontpage-header4"><a href="/admin/logger/logger/">Logger History</a></h2>
+            </div>
             <p style = "clear:both"></p>
         </div>
         <div id = "status">
-        <h1>File Upload</h2>
+            <h1 id = "page-title">Upload Files to the Datalogger</h1>
             <form action = "" method = "post" enctype = "multipart/form-data">
                 {% csrf_token %}
                 <pre id = "upload-file">
@@ -35,7 +40,7 @@
                     <p>
                         {{fileform.doc_file}}
                     </p>
-                    <p><input name = "file-upload" class = "button-start" type ="submit" value = "Upload" onClick = "alert('File uploaded');"/></p>
+                    <p><input name = "file-upload" class = "button-start" type ="submit" value = "Upload"/></p>
                 </pre>
             </form>
         </div>

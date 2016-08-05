@@ -94,9 +94,13 @@
     position:relative;
 }
 #spectrum-logo {
+    /*
     margin-left:-1.25%;
     margin-top:-2.1%; 
-    position:fixed; 
+    position:fixed; */
+    background-color: white;
+    margin-top: 2.2%;
+    padding: 2px;
 }
 body {
    /* background-color: #FBF3E9; */
