@@ -4,12 +4,11 @@
     /* background-color:#999999; */
     background-color:#696969;
     padding: 44px 10px 5px 25px;
-    margin: -15px 0px;
-    width:98%;
+    margin: -14px 0px;
+    width:100%;
     position:fixed;
     z-index:6;
 }
-
 
 #page-title {
     color: #008B8B;
@@ -95,7 +94,7 @@
 }
 #spectrum-logo {
     margin-left:-1.25%;
-    margin-top:-2.1%; 
+    margin-top:-3.1%; 
     position:fixed; 
 }
 body {
@@ -127,9 +126,7 @@ body {
     margin:-270px -500px 0 0;
 }
 
-
 .frontpage-header1 {
-    color:white;
     margin-bottom:0px;
     padding: 10px; 
     text-align: center;
@@ -142,8 +139,9 @@ body {
     margin-left:5%;
     margin-top:-2.3%;
 }
+
 .frontpage-header2 {
-    color:white;
+    color:#FFFFFF;
     margin-bottom:0px;
     padding: 10px;
     text-align: center;
@@ -157,7 +155,7 @@ body {
     margin-top:-2.3%;
 }
 .frontpage-header3 {
-    color:white;
+    color:#FFFFFF;
     margin-bottom:0px;
     padding: 10px;
     text-align: center;
@@ -171,7 +169,7 @@ body {
     margin-top:-2.3%;
 }
 .frontpage-header4 {
-    color:white;
+    color:#FFFFFF;
     margin-bottom:0px;
     padding: 10px;
     text-align: center;
@@ -194,3 +192,22 @@ body {
     color: white;
     text-decoration: none;
 }
+.page-header a:hover {
+    color: white;
+}
+
+
+/*
+.frontpage-header1.active {
+    background-color: #4ACF50;
+}
+.frontpage-header2.active {
+    background-color: #4ACF50;
+}
+.frontpage-header3.active {
+    background-color: #4ACF50;
+}
+.frontpage-header4.active {
+    background-color: #4ACF50;
+}
+*/

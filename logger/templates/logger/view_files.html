@@ -1,3 +1,4 @@
+<!DOCTYPE html> 
 {% load staticfiles %}
 <html>
     <head>
@@ -10,6 +11,7 @@
         <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}" />
         <link rel="icon" type="image/png" href="{% static 'favicon-16x16.png' %}" sizes="16x16" />
         <link rel="icon" type="image/png" href="{% static 'favicon-32x32.png' %}" sizes="32x32" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     </head>
     <body>
         <div class = "page-header"> 
@@ -23,7 +25,7 @@
                     <h2 class = "frontpage-header2"><a href="/logger/upload/">Upload Files</a></h2>
                 </div>
                 <div>
-                    <h2 class = "frontpage-header3"><a href="/logger/files/">Logger Files</a></h2>
+                    <h2 class = "frontpage-header3" id = "header-color3"><a href="/logger/files/">Logger Files</a></h2>
                 </div>
                 <div>
                     <h2 class = "frontpage-header4"><a href="/admin/logger/logger/">Logger History</a></h2>
