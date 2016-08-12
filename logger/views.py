@@ -1,49 +1,54 @@
+import os, datetime, subprocess, psutil
 from django.shortcuts import render, render_to_response
-from django.utils import timezone
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
-from .forms import Loggerform, UploadForm, Button_Form
+from django.http import HttpResponse, HttpResponseRedirect
+from .forms import LoggerForm, UploadForm 
 from .models import Logger, Document
-from django.core.urlresolvers import reverse
 from django.template import RequestContext
-import os, argparse, time, datetime, serial, subprocess, sys, psutil, tempfile, zipfile, shlex
-from django.views.static import serve
-from django.utils.encoding import smart_str
-from pprint import pprint
 from wsgiref.util import FileWrapper
 from shutil import make_archive
 
-p =None 
-alive = False
+#Initial variables to hold status of logger
+p = None 
+logger_alive = False
 initial_server_run = True
 temp = {"baudrate": " ", "filename": " ", "update_rate": " ", "dataport": " ", "timeout":" "}
 status = {"current": "Not Logging"}
-#Startpage
+
+#Startpage at 10.0.1.135:8000
 def Startpage(request):
+
+    #Collect all logger history 
     post = Logger.objects.all()
     global temp
     global status
-    global alive
+    global logger_alive
 
+    #Get current time
     current_time = datetime.datetime.now()
-    #if "stop" in form.data:
+
+    #If press stop button
     if request.POST.get('stop'):
+
+        #Stop logger, change current status, change current settings
         Kill_logger(p.pid)
         status = {"current": "Not Logging"}
-        alive = False
+        logger_alive = False
         logger_settings = {"baudrate": " ", "filename": " ", "update_rate": " ", "dataport": " ", "timeout":" "}
         temp = logger_settings
+
+    #Send variables to html page 
     return render(request, 'logger/startpage.html', {'post':post, 'temp':temp, 'status':status})
 
-#New datalogger
+#New datalogger at 10.0.1.135:8000/logger/CSV_form
 def New_form_CSV(request):
     global p
-    global alive
+    global logger_alive
     global initial_server_run
     global temp
     global status
    
-    #Create logger object
-    form = Loggerform(request.POST)
+    #Create form for entering in logger settings 
+    form = LoggerForm(request.POST)
     status = {"current": "Not Logging"}
     if initial_server_run is True:
         logger_settings = {"baudrate": " ", "filename": " ", "update_rate": " ", "dataport": " ", "timeout":" "}
@@ -51,29 +56,33 @@ def New_form_CSV(request):
     else:
         logger_settings = temp
     
-    if alive is True:
+    #Change status of logger
+    if logger_alive is True:
         status = {"current": "Logging"}
     else:
         status = {"current": "Not Logging"}
 
     #Blank/default logger
     if not form.is_valid() and request.POST.get('submit'):
+        
         #Kill previous logger
-        if alive is True:
+        if logger_alive is True:
             Kill_logger(p.pid)
+
+        #Create history of logger
         Logger.objects.create(name = "default_logger", baudrate = "115200", update_rate = "0", data_port = "ttyAMA0", timeout = "5") 
    
-        #Run background script
+        #Run background script to start logger
         p = subprocess.Popen(["python", '/home/pi/Documents/Server/Django-server/logger/scripts/log_csv.py', "-n", "default_logger", "-r","0", "-b", "115200", "-p", "ttyAMA0", "-t", "5"])
         status = {"current": "Logging"}
-        alive = True
+        logger_alive = True
         logger_settings = {"baudrate":"115200", "filename": "default_logger", "update_rate": "0", "dataport":"ttyAMA0", "timeout":"5"}
         temp = logger_settings
 
-    #Logger with fill in form
+    #Logger with user specified settings
     if form.is_valid():    
         if request.POST.get('submit'):
-            if alive is True:
+            if logger_alive is True:
                 Kill_logger(p.pid)
             clean_baudrate = form.cleaned_data['baudrate']
             clean_name = form.cleaned_data['file_name']
@@ -81,24 +90,28 @@ def New_form_CSV(request):
             clean_dataport = form.cleaned_data['dataport']
             clean_timeout = form.cleaned_data['timeout']
     
+            #Create history of logger
             Logger.objects.create(name = clean_name, baudrate = clean_baudrate, update_rate = clean_update_rate, data_port = clean_dataport, timeout = clean_timeout) 
 
+            #Start background script
             p = subprocess.Popen(["python", '/home/pi/Documents/Server/Django-server/logger/scripts/log_csv.py', "-n", clean_name, "-r", str(clean_update_rate), "-b", str(clean_baudrate), "-p", str(clean_dataport), "-t", str(clean_timeout)])
             status = {"current": "Logging"}
-            alive = True
+            logger_alive = True
             logger_settings = {"baudrate":str(clean_baudrate), "filename":clean_name, "update_rate": str(clean_update_rate), "dataport": str(clean_dataport), "timeout": str(clean_timeout)}
             temp = logger_settings
 
-    #Stop background script
+    #If stop button pressed, stop background script
     if request.POST.get('stop'):
         Kill_logger(p.pid)
         status = {"current": "Not Logging"}
-        alive = False
+        logger_alive = False
         logger_settings = {"baudrate": " ", "filename": " ", "update_rate": " ", "dataport": " ", "timeout":" "}
         temp = logger_settings
+
+    #Send variables to html page
     return render(request, 'logger/new_CSV_logger.html', {'form': form, 'status':status, 'logger_settings':logger_settings})
 
-#Kill background script
+#Kill background logger script
 def Kill_logger(proc_pid):
      process = psutil.Process(proc_pid)
      for proc in process.children(recursive=True):
@@ -114,10 +127,12 @@ def Upload_file(request):
             return HttpResponseRedirect("")
     else:
         fileform = UploadForm()
+
+    #Create history of uploaded files
     documents = Document.objects.all()
     return render_to_response('logger/upload.html',{'documents': documents, 'fileform':fileform},context_instance=RequestContext(request))
 
-#Write file
+#Copy file onto server
 def Handle_uploaded_file(file):
     if file:
         #Replace spaces in filename with "_" otherwise it can't be deleted
@@ -130,6 +145,7 @@ def Handle_uploaded_file(file):
 def View_files(request, file_name=""):
     path = "/home/pi/Documents/Server/Django-server/logs/"
     files = os.listdir(path)
+
     #Download all files in directory (.zip file)
     if request.POST.get('download-all'):
         file_path = "/home/pi/Documents/Server/Django-server/logs/"+file_name

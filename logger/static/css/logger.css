@@ -13,17 +13,21 @@
 #page-title {
     color: #008B8B;
 }
+
 #page-title:hover {
     color:#87CEFA;
     text-decoration:none;
 }
+
 #file-list a:hover {
     text-decoration:none;
     color:#660000;
 }
+
 #file-list a {
     font-size: 12pt;
 }
+
 .button-stop{
     cursor: pointer;
     text-decoration: none;
@@ -37,12 +41,15 @@
     margin: 4px 2px;
     border-radius: 12px;
 }
+
 .button-start:hover {
     background-color: #3E8E41;
 }
+
 .button-stop:hover {
     background-color: #B22222;
 }
+
 .button-download-all {
     cursor: pointer;
     text-decoration: none;
@@ -56,6 +63,7 @@
     margin: 4px 0px;
     border-radius: 12px;
 }
+
 .button-delete-single {
     cursor: pointer;
     text-decoration: none;
@@ -69,6 +77,7 @@
     margin: -11px 4px;
     border-radius: 12px;
 }
+
 .button-start {
     cursor: pointer;
     text-decoration: none;
@@ -82,25 +91,30 @@
     margin: 4px 2px;
     border-radius: 12px;
 }
+
 #status {
     display:inline-block;
     margin: 50px 30px;
     padding: 0px 0px 30px;
 }
+
 #status-bar {
     color: #20B2AA;
     margin: -36px 81px -3px;
     position:relative;
 }
+
 #spectrum-logo {
     margin-left:-1.25%;
     margin-top:-3.1%; 
     position:fixed; 
 }
+
 body {
    /* background-color: #FBF3E9; */
     background-color: #F2F2F2;
 }
+
 .formdata {
     margin: -440px 660px;
     padding: 15px 32px;
@@ -114,12 +128,12 @@ body {
     position: relative;
 }
 
-
 #logger-settings {
     float:left;
     width:30%;
     margin:-270px 0 0 0;
 }
+
 #history {
     float:right;
     width:80%;
@@ -154,6 +168,7 @@ body {
     margin-left:15.6%;
     margin-top:-2.3%;
 }
+
 .frontpage-header3 {
     color:#FFFFFF;
     margin-bottom:0px;
@@ -168,6 +183,7 @@ body {
     margin-left:26.5%;
     margin-top:-2.3%;
 }
+
 .frontpage-header4 {
     color:#FFFFFF;
     margin-bottom:0px;
@@ -182,16 +198,19 @@ body {
     margin-left:37.25%;
     margin-top:-2.3%;
 }
+
 .frontpage-header1:hover, .frontpage-header2:hover, .frontpage-header3:hover, .frontpage-header4:hover {
     text-decoration: none;
     background-color: #333333;
     -webkit-transition-duration: 0.3s; /* Safari */
     transition-duration: 0.3s;
 }
+
 .page-header a {
     color: white;
     text-decoration: none;
 }
+
 .page-header a:hover {
     color: white;
 }

@@ -1,9 +1,10 @@
+/* Changes element based on click... currently not used */
 function getclick(element)
 {
     element.style.backgroundColor = '#9932CC';
 }
 
-/* Controls background color when user is on specific page/tab */
+/* Controls background color when user is on specific page or tab */
 $(function() {
     if($('h2').is('#header-color1')){
         var x = document.querySelector(".frontpage-header1");

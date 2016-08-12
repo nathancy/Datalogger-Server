@@ -7,47 +7,37 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="{% static 'css/logger.css' %}">
-        <title>Datalogger</title>
         <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}" />
         <link rel="icon" type="image/png" href="{% static 'favicon-16x16.png' %}" sizes="16x16" />
         <link rel="icon" type="image/png" href="{% static 'favicon-32x32.png' %}" sizes="32x32" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <!--
-        <script type="text/javascript">
-            if(window.location.pathname.match(/^logger\/CSV_form\//i)
-            {
-                var x = document.querySelector("body");
-                x.style.backgroundColor = "#4ACF50";
-            }
-        </script>
-        -->
+        <title>Datalogger</title>
     </head>
     <body>
         <div class="page-header">
-            <div id = "spectrum-logo">
+            <div id = "spectrum-logo" title = "Home">
                 <a href = "/"><img src = "{% static 'SPECTRUM-LOGO.png' %}" /></a>
             </div>
-                <div>
-                 
-                <h2 class= "frontpage-header1"><a href="logger/CSV_form/">New Logger</a></h2>
-                </div>
-                <div>
-                    <h2 class = "frontpage-header2"><a href="logger/upload/">Upload Files</a></h2>
-                </div>
-                <div>
-                    <h2 class = "frontpage-header3"><a href="logger/files/">Logger Files</a></h2>
-                </div>
-                <div>
-                    <h2 class = "frontpage-header4"><a href="admin/logger/logger/">Logger History</a></h2>
-                </div>
-                <p style = "clear:both"></p>
+            <div>
+                <h2 class= "frontpage-header1" title = "Start New Logger"><a href="logger/CSV_form/">New Logger</a></h2>
+            </div>
+            <div>
+                <h2 class = "frontpage-header2" title = "Upload Files"><a href="logger/upload/">Upload Files</a></h2>
+            </div>
+            <div>
+                <h2 class = "frontpage-header3" title = "View Files"><a href="logger/files/">Logger Files</a></h2>
+            </div>
+            <div>
+                <h2 class = "frontpage-header4" title = "History"><a href="admin/logger/logger/">Logger History</a></h2>
+            </div>
+            <p style = "clear:both"></p>
         </div>
-            <div id ="status">
-                <h1 id = "page-title">SPI Datalogger</h1>
-                <p>
-                    <h3>Status: <h3 id = "status-bar">{{status.current}}</h3></h3>
-                </p>
-                <h1>Current Logging Settings</h1>
+        <div id ="status">
+            <h1 id = "page-title">SPI Datalogger</h1>
+            <p>
+                <h3>Status: <h3 id = "status-bar">{{status.current}}</h3></h3>
+            </p>
+            <h1>Current Logging Settings</h1>
             <ul>
                 <li>Baudrate: {{temp.baudrate}} </li>
                 <li>Filename: {{temp.filename}} </li>
@@ -56,25 +46,10 @@
                 <li>Timeout: {{temp.timeout}} </li>
             </ul>
             <form action = "" method ="post">
-            {% csrf_token %}
-            <input type = "submit" class = "button-stop" value = "Stop" name = "stop" > <!-- onClick = "alert('Logging stopped'); return true"/> -->
+                {% csrf_token %}
+                <input type = "submit" class = "button-stop" value = "Stop" name = "stop" title ="Stop current logger" > <!-- onClick = "alert('Logging stopped'); return true"/> -->
             </form>
         </div>
-       
-           <!-- <div> 
-        <h1>Logging History</h1>
-            <ul>
-                {% for x in post %}
-                    <li><h4>{{ x }}</h4></li>
-                {% endfor %}
-            </ul>
-            </div> -->
     </body>
 </html>
-
-<!--
-
-            <h2>eyyyyyy</h2>
-            <strong>hellllo</strong>
--->
 

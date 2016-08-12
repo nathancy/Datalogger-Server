@@ -7,6 +7,7 @@ import argparse, time, serial, datetime
 
 #Datalogger model for csv files
 class Logger(models.Model):
+    #Fields/blank forms on admin page
     baudrate = models.PositiveIntegerField(default = 115200)
     update_rate = models.PositiveIntegerField(default = 0)
     name = models.CharField(max_length = 50)
@@ -23,6 +24,8 @@ class Logger(models.Model):
 class Document(models.Model):
     doc_file= models.FileField(upload_to = '/home/pi/Documents/Server/Django-server/logs')
 
+#Moved to log_csv.py
+'''
 class serial_port(object):
     data_field = None
     def __init__(self, filename= "Data_", baudrate=115200, interval=.5):
@@ -38,4 +41,4 @@ class serial_port(object):
         print current_time[:-3]
         self.data_field.write(str(current_time[:-3]) +"\n")
 
-
+'''
