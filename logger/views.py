@@ -2,7 +2,7 @@ import os, datetime, subprocess, psutil
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import LoggerForm, UploadForm 
-from .models import Logger, Document
+from .models import Logger, Document 
 from django.template import RequestContext
 from wsgiref.util import FileWrapper
 from shutil import make_archive
@@ -18,18 +18,14 @@ status = {"current": "Not Logging"}
 def Startpage(request):
 
     #Collect all logger history 
-    post = Logger.objects.all()
     global temp
     global status
     global logger_alive
+    current_time = datetime.datetime.now().strftime("[%m-%d-%Y %H-%M-%S-%f")
+    current_time = current_time[:-3] +"]" 
 
-    #Get current time
-    current_time = datetime.datetime.now()
-
-    #If press stop button
-    if request.POST.get('stop'):
-
-        #Stop logger, change current status, change current settings
+    #If press stop button, change current status, change current settings
+    if request.POST.get('stop') and logger_alive is True:
         Kill_logger(p.pid)
         status = {"current": "Not Logging"}
         logger_alive = False
@@ -37,7 +33,7 @@ def Startpage(request):
         temp = logger_settings
 
     #Send variables to html page 
-    return render(request, 'logger/startpage.html', {'post':post, 'temp':temp, 'status':status})
+    return render(request, 'logger/startpage.html', {'current_time':current_time, 'temp':temp, 'status':status})
 
 #New datalogger at 10.0.1.135:8000/logger/CSV_form
 def New_form_CSV(request):
@@ -46,6 +42,8 @@ def New_form_CSV(request):
     global initial_server_run
     global temp
     global status
+    current_time = datetime.datetime.now().strftime("[%m-%d-%Y %H-%M-%S-%f")
+    current_time = current_time[:-3] +"]" 
    
     #Create form for entering in logger settings 
     form = LoggerForm(request.POST)
@@ -64,8 +62,6 @@ def New_form_CSV(request):
 
     #Blank/default logger
     if not form.is_valid() and request.POST.get('submit'):
-        
-        #Kill previous logger
         if logger_alive is True:
             Kill_logger(p.pid)
 
@@ -84,6 +80,8 @@ def New_form_CSV(request):
         if request.POST.get('submit'):
             if logger_alive is True:
                 Kill_logger(p.pid)
+
+            #Extract input from forms
             clean_baudrate = form.cleaned_data['baudrate']
             clean_name = form.cleaned_data['file_name']
             clean_update_rate = form.cleaned_data['update_rate']
@@ -101,7 +99,7 @@ def New_form_CSV(request):
             temp = logger_settings
 
     #If stop button pressed, stop background script
-    if request.POST.get('stop'):
+    if request.POST.get('stop') and logger_alive is True:
         Kill_logger(p.pid)
         status = {"current": "Not Logging"}
         logger_alive = False
@@ -109,7 +107,7 @@ def New_form_CSV(request):
         temp = logger_settings
 
     #Send variables to html page
-    return render(request, 'logger/new_CSV_logger.html', {'form': form, 'status':status, 'logger_settings':logger_settings})
+    return render(request, 'logger/new_CSV_logger.html', {'current_time': current_time, 'form': form, 'status':status, 'logger_settings':logger_settings})
 
 #Kill background logger script
 def Kill_logger(proc_pid):
@@ -118,8 +116,10 @@ def Kill_logger(proc_pid):
          proc.kill()
      process.kill()
 
-#Upload files
+#Upload files at 10.0.1.135:8000/logger/upload
 def Upload_file(request):
+    current_time = datetime.datetime.now().strftime("[%m-%d-%Y %H-%M-%S-%f")
+    current_time = current_time[:-3] +"]" 
     if request.method == 'POST' and request.POST.get('file-upload'):
         fileform = UploadForm(request.POST, request.FILES)
         if fileform.is_valid():
@@ -130,7 +130,7 @@ def Upload_file(request):
 
     #Create history of uploaded files
     documents = Document.objects.all()
-    return render_to_response('logger/upload.html',{'documents': documents, 'fileform':fileform},context_instance=RequestContext(request))
+    return render_to_response('logger/upload.html',{'current_time': current_time, 'documents': documents, 'fileform':fileform},context_instance=RequestContext(request))
 
 #Copy file onto server
 def Handle_uploaded_file(file):
@@ -141,11 +141,13 @@ def Handle_uploaded_file(file):
             destination.write(chunk)
         destination.close()
 
-#Display files in media directory
+#Display files in media directory at 10.0.1.135:8000/logger/files
 def View_files(request, file_name=""):
     path = "/home/pi/Documents/Server/Django-server/logs/"
     files = os.listdir(path)
-
+    current_time = datetime.datetime.now().strftime("[%m-%d-%Y %H-%M-%S-%f")
+    current_time = current_time[:-3] +"]" 
+    
     #Download all files in directory (.zip file)
     if request.POST.get('download-all'):
         file_path = "/home/pi/Documents/Server/Django-server/logs/"+file_name
@@ -157,9 +159,10 @@ def View_files(request, file_name=""):
     #Delete single file on webpage
     if request.POST.get('delete-single-csv'):
         for filename in files:
+            #If user clicks on file, it shows as a blank while every other file is "None" on printf
             if request.POST.get(filename) is not None:
                 delete_csv_file = subprocess.Popen(["rm", "/home/pi/Documents/Server/Django-server/logs/" + str(filename)])
                 stdoutdata, stderrdata = delete_csv_file.communicate()
                 files = os.listdir(path)
-    return render(request, 'logger/view_files.html', {'files':files})
+    return render(request, 'logger/view_files.html', {'current_time': current_time, 'files':files})
     

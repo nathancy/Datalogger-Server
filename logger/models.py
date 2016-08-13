@@ -1,8 +1,6 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.utils import timezone
-from django.forms import ModelForm
-from django.core.files.storage import FileSystemStorage
 import argparse, time, serial, datetime
 
 #Datalogger model for csv files
@@ -20,13 +18,12 @@ class Logger(models.Model):
     def __str__(self):
         return self.name
 
-#Upload files to datalogger
+#Upload model
 class Document(models.Model):
-    doc_file= models.FileField(upload_to = '/home/pi/Documents/Server/Django-server/logs')
+         doc_file= models.FileField(upload_to = '/home/pi/Documents/Server/Django-server/logs')
 
 #Moved to log_csv.py
 '''
-class serial_port(object):
     data_field = None
     def __init__(self, filename= "Data_", baudrate=115200, interval=.5):
         time_stamp=datetime.datetime.now().strftime("%m_%d_%Y::%H_%M_%S_%f")
@@ -40,5 +37,4 @@ class serial_port(object):
         current_time=datetime.datetime.now().strftime("%m_%d_%Y::%H_%M_%S_%f")
         print current_time[:-3]
         self.data_field.write(str(current_time[:-3]) +"\n")
-
 '''
